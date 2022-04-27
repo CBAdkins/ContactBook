@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\model",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\my-contacts"
+  ],
+  "SelectedNode": "\\src\\app\\age.pipe.ts",
+  "PreviewInSolutionExplorer": false
+}

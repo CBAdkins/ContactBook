@@ -1,0 +1,146 @@
+<a href="https://www.bittner-krull.de/">
+	<img src="https://www.bittner-krull.de/wp-content/uploads/2016/12/BK_Logo_NoTag_161013_2.png" height="100" width="300" alt="Bittner und Krull" title="">
+</a>
+<p-table #dt [value]="contactsString" dataKey="id" editMode="row"
+				 [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-customers p-datatable-gridlines"
+				 [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				 [globalFilterFields]="['title','forename','surname','telephoneNumber','iban']">
+	<ng-template pTemplate="caption">
+		<div class="flex">
+			<button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter" (click)="clear(dt)"></button>
+			<span class="p-input-icon-left ml-auto">
+				<i class="pi pi-search"></i>
+				<input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+			</span>
+		</div>
+	</ng-template>
+	<ng-template pTemplate="header">
+		<tr>
+			<th>
+				<div class="flex justify-content-center align-items-center">
+					Name
+					<p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+				</div>
+			</th>
+			<th>
+				<div class="flex justify-content-center align-items-center">
+					Age
+					<p-columnFilter type="text" field="age" display="menu"></p-columnFilter>
+				</div>
+			</th>
+			<th>
+				<div class="flex justify-content-center align-items-center">
+					Address
+					<p-columnFilter type="text" field="address" display="menu"></p-columnFilter>
+				</div>
+			</th>
+			<th>
+				<div class="flex justify-content-center align-items-center">
+					Tel. No.
+					<p-columnFilter type="text" field="telephoneNumber" display="menu"></p-columnFilter>
+				</div>
+			</th>
+			<th>
+				<div class="flex justify-content-center align-items-center">
+					IBAN
+					<p-columnFilter type="text" field="iban" display="menu"></p-columnFilter>
+				</div>
+			</th>
+			<th style="width:10rem"></th>
+			<th style="width:10rem"></th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-contact let-editing="editing" let-ri="rowIndex">
+		<tr [pEditableRow]="contact">
+			<td>{{contact.title}} {{contact.forename}} {{contact.surname}}</td>
+			<td>{{contact.age}}</td>
+			<td>
+				<pre>{{contact.street}} {{contact.houseNumber}}
+{{contact.postCode}} {{contact.city}}</pre>
+			</td>
+			<td>{{contact.telephoneNumber}}</td>
+			<td>{{contact.iban}}</td>
+			<td style="text-align:center">
+				<p-button (click)="showEditContact(contact)" icon="pi pi-pencil"></p-button>
+				<p-dialog header="Edit Contact" [(visible)]="displayEditContact" [modal]="true" [style]="{width: '15vw'}" [baseZIndex]="10000"
+									[draggable]="false" [resizable]="false">
+					<div class="container-fluid">
+						<form action="/myapp/import" enctype="multipart/form-data" [formGroup]="editContactForm" (ngSubmit)="onSubmitEditContact(contact)">
+							<p>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Title" formControlName="title" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Surname" formControlName="surname" required />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Forename" formControlName="forename" required />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="date" placeholder="Date of Birth" formControlName="dateOfBirth" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Street" formControlName="street" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="House Number" formControlName="houseNumber" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="District" formControlName="district" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Town / City" formControlName="city" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Post Code" formControlName="postCode" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Country" formControlName="country" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Tel. No." formControlName="telephoneNumber" />
+								<br>
+								<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="IBAN" formControlName="iban" required />
+								<br>
+								<button pButton class="mr-2" type="submit">Submit</button> <button pButton class="mr-2" type="reset">Reset</button>
+							</p>
+						</form>
+					</div>
+				</p-dialog>
+			</td>
+			<td style="text-align:center">
+				<button pButton pRipple type="button" pDeleteRow icon="pi pi-times" (click)="onDeleteContact(contact)"></button>
+			</td>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="emptymessage">
+		<tr>
+			<td colspan="5">No contacts found.</td>
+		</tr>
+	</ng-template>
+</p-table>
+<br />
+<p-button (click)="displayAddContact=true" icon="pi pi-external-link" label="New Contact"></p-button>
+<p-dialog header="New Contact" [(visible)]="displayAddContact" [modal]="true" [style]="{width: '15vw'}" [baseZIndex]="10000"
+					[draggable]="false" [resizable]="false">
+	<div class="container-fluid">
+		<form action="/myapp/import" enctype="multipart/form-data" [formGroup]="newContactForm" (ngSubmit)="onAddContact()">
+			<p>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Title" formControlName="title" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Surname" formControlName="surname" required />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Forename" formControlName="forename" required />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="date" placeholder="Date of Birth" formControlName="dateOfBirth" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Street" formControlName="street" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="House Number" formControlName="houseNumber" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="District" formControlName="district" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Town / City" formControlName="city" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Post Code" formControlName="postCode" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Country" formControlName="country" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="Tel. No." formControlName="telephoneNumber" />
+				<br>
+				<span>Title : &nbsp;</span> <input class="mb-2" pInputText type="text" placeholder="IBAN" formControlName="iban" required />
+				<br>
+				<button pButton class="mr-2" type="submit">Submit</button> <button pButton class="mr-2" type="reset">Reset</button>
+			</p>
+		</form>
+	</div>
+</p-dialog>
