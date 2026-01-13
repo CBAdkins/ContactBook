@@ -52,8 +52,8 @@ The frontend is responsible for user interaction and presentation, while the bac
    ```bash
    npm install
 3. Start the development server:
-
-ng serve
+   ```bash
+   ng serve
 
 Open a browser to the Angular development URL (default: http://localhost:4200)
 
