@@ -36,7 +36,6 @@ The application allows users to create, view, update, and delete contacts throug
 ## Project Structure
 
 ContactBook/
-│
 ├── Client/ # Angular frontend
 │ ├── src/
 │ └── ...
