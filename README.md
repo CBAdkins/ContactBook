@@ -33,23 +33,6 @@ The application allows users to create, view, update, and delete contacts throug
 
 ---
 
-## Project Structure
-
-ContactBook/
-├── Client/ # Angular frontend
-│ ├── src/
-│ └── ...
-│
-├── API/ # ASP.NET Core Web API
-│ ├── Controllers/
-│ ├── Models/
-│ ├── Services/
-│ └── ...
-│
-└── README.md
-
----
-
 
 The frontend is responsible for user interaction and presentation, while the backend exposes REST endpoints for all data operations.
 
@@ -72,7 +55,28 @@ The frontend is responsible for user interaction and presentation, while the bac
 
 ng serve
 
-
 Open a browser to the Angular development URL (default: http://localhost:4200)
 
 Ensure the frontend is configured to point to the correct API base URL.
+
+---
+
+What This Project Demonstrates
+
+* Full software development lifecycle ownership for a small application
+* TypeScript-based frontend development using a modern framework
+* REST API design and consumption
+* Practical, maintainable code structure over unnecessary complexity
+* Ability to translate business requirements into working software
+
+---
+
+Notes
+
+This project was created as part of a job application exercise and is intentionally scoped to focus on clarity, correctness, and maintainability rather than advanced features or over-engineering.
+
+---
+
+Author
+
+Christopher Adkins
